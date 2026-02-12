@@ -16,6 +16,13 @@ export const setDecksAC = (decks: Deck[]) => {
   }
 }
 
+export const addDeckAC = (deck: Deck) => {
+  return{
+    type : "ADD_DECK" as const,
+    deck
+  }
+}
+
 export const decksReducer = (state: DecksState = initialState, action: DecksActions): DecksState => {
   switch (action.type) {
     case 'SET_DECKS': {
@@ -24,9 +31,15 @@ export const decksReducer = (state: DecksState = initialState, action: DecksActi
         decks: action.decks,
       }
     }
+    case 'ADD_DECK': {
+      return {
+        ...state,
+        decks: [action.deck, ...state.decks]
+      }
+    }
     default:
       return state
   }
 }
 
-type DecksActions = ReturnType<typeof setDecksAC>
+type DecksActions = ReturnType<typeof setDecksAC> | ReturnType<typeof addDeckAC>
